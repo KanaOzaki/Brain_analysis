@@ -1,6 +1,12 @@
 #!=usr/bin/python
 #-*- coding: utf-8 -*-
-#Normalization.py
+#Standardization.py
+
+##このプログラムは、TrainとTestが同じ値の範囲になるように
+##どちらもそれぞれ平均0、分散1に正規化する(標準化).
+##いただいたtrainデータとtestデータは最初から大きく分散が違ったので
+##今回はそれぞれのデータを標準化した.
+##コマンド入力 : 被験者名
 
 import sys
 import numpy as np
