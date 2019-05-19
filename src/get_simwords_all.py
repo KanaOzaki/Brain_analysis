@@ -2,7 +2,10 @@
 #-*- coding: utf-8 -*-
 #get_simwords_all.py
 
-##このプログラムは、推定意味表象行列の各サンプルごとの類似単語を出力
+##このプログラムは、推定意味表象行列の各サンプルごとの類似単語を出力する.
+##単語の探索範囲はword2vec空間全てである.
+##コマンド入力
+##1.被験者名 2.予測精度の閾値 3.基底数 4.time lag 5.間引き数(何sampleに1枚抜くか)
 
 import sys
 import gensim
@@ -35,10 +38,13 @@ def main():
         word_list = word_list[0].split('.')
         vocab_list[word_list[0]] = word_list[1]
 
+    # 推定意味表象行列から1サンプルごとに類似単語を出力する
     for i,vector in enumerate(Estimate_SRM):
+        # word2vec空間の中から上位20単語を持ってくる.
         words = W2V_model.most_similar([vector], [], 20)
         print("サンプル " + str(i) + "-------")
         for word in words:
+            # 語彙の中に含まれている単語で、名詞、動詞、形容詞のみを出力.
             if(word[0] in vocab_list.keys()):
                 word_type = vocab_list[word[0]]
                 if(word_type == "n" or word_type == "a" or word_type == "v"):
