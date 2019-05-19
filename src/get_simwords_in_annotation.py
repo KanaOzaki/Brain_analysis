@@ -24,7 +24,7 @@ def main():
 	shift = int(args[4])
 	sample = int(args[5])
 
-	if sub != 'DK':
+	if sub == 'DK':
 		sample_lag = shift
 	else:
 		sample_lag = int(shift/2)
