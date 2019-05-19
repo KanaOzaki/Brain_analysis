@@ -1,8 +1,10 @@
 #!=usr/bin/python
 #-*- coding: utf-8 -*-
+#make_srm300.py
 
-# 意味表象行列を作成(word2vec : 200)
-# 訓練データに対する
+# このプログラムは、アノテーションデータから意味表象行列を作成(word2vec : 300)する.
+# 浅原先生がお作りになられた分散表現を使用.
+# 訓練データに対して、テストデータに対してどちらも対応可能.
 
 import re
 import gensim
@@ -47,9 +49,12 @@ def make_word2vec(sentence, word_list):
 	for token in t.tokenize(sentence, stream=True):
 		hinshi = token.part_of_speech.split(',')[0]
 
+		# 動詞、形容詞または数字以外の名詞
 		if(hinshi == "動詞" or hinshi == "形容詞" or (hinshi == "名詞" and token.part_of_speech.split(',')[1] != "数")):
 
+			# 語彙リストに含まれている単語のみ
 			if(token.base_form in word_list):
+				# 分散表現の辞書の中になかったら、それは無視する.
 				try:
 					W2V_sum += W2V_model[token.base_form]
 				except:
@@ -63,15 +68,17 @@ def main():
 	args = sys.argv
 	target = args[1]
 
+	# 語彙ファイル読み込み
 	file_name = '../original_data/NishidaVimeo/jawiki160111S1000W10SG_vocab.txt'
 	word_list = make_word_list(file_name)
 
+	# アノテーションデータ読み込み
 	file_name = '../data/annotation/annotation_' + target + '.txt'
 	annotation_data = read_annotation_data(file_name)
 
 
+	# アノテーションデータの各サンプルについて単語の意味表象の和を求める.
 	srm_all = []
-
 	for sentence in annotation_data:
 		srm = make_word2vec(sentence, word_list)
 		print(srm)
