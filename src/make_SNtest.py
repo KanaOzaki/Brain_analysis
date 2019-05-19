@@ -2,6 +2,10 @@
 #-*- coding: utf-8 -*-
 #make_SNtest.py
 
+##このプログラムは、SNのテスト脳活動データを作成する.
+##ST,SN,DKの3人の被験者の中でSNだけは5回分とったデータをもらっているので
+##その5回の平均をとった値を脳活動データの1サンプルとする.
+
 import numpy as np
 from scipy.io import loadmat
 from scipy.io import savemat
