@@ -1,5 +1,11 @@
 #!=usr/bin/python
 #-*- coding: utf-8 -*-
+#Brain_dimention_reduction_VB.py
+
+##このプログラムは、脳活動データの次元を削減する.
+##予測精度の閾値を設定し、その閾値以上のボクセルのみを抽出し、
+##使用する脳活動行列として保存する.
+##trainとtest同時に行う.
 
 from scipy.io import loadmat
 import pickle
