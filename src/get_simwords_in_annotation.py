@@ -3,6 +3,8 @@
 
 ##このプログラムは、アノテーション内の名詞のみを取り出したデータと辞書と推定意味表象行列を読み込み、
 ##辞書における各意味表象基底ベクトルとcos類似度が高い上位5単語をそのリストの中から見つける.
+##コマンド入力
+##1.VB/TV 2.被験者名 3.予測精度の閾値 4.基底数 5.time lag 6.間引き数(何sampleに1枚抜くか) 7. train/test
 
 import pickle
 import sys
@@ -18,23 +20,25 @@ def cos_similar(vector1, vector2):
 def main():
 
 	args = sys.argv
-	sub = args[1]
-	threshold = args[2]
-	dimention = int(args[3])
-	shift = int(args[4])
-	sample = int(args[5])
+	target = args[1]
+	sub = args[2]
+	threshold = args[3]
+	dimention = int(args[4])
+	shift = int(args[5])
+	sample = int(args[6])
+	phase = args[7]
 
-	if sub == 'DK':
+	if (target == 'TV') and (sub == 'DK'):
 		sample_lag = shift
 	else:
 		sample_lag = int(shift/2)
 
 	# アノテーション内の名詞のみを取り出したデータ(key:単語, value:ベクトル の辞書)
-	with open('../data/annotation/noun_in_annotation.pickle', mode = 'rb') as f:
+	with open('../data/annotation/' + target + '/noun_in_annotation_' + target + '_' + phase + '.pickle', mode = 'rb') as f:
 		noun_in_annotation = pickle.load(f)
 
 	# 推定意味表書行列の読み込み
-	Estimate_SRM = np.load("../data/Test/VB/ESRM_pred" + threshold + "_basis" + str(dimention) + "_sec" + str(shift) + "_sample" + str(sample) + ".pickle")
+	Estimate_SRM = np.load("../data/Test/" + target + "/ESRM_" + sub + "_pred" + threshold + "_base" + str(dimention) + "_sec" + str(shift) + "_sample" + str(sample) + ".pickle")
 	Estimate_SRM = Estimate_SRM.T
 
 	# 推定意味表象行列から1サンプルごとに類似単語を出力する
