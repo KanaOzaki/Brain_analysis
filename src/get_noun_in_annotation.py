@@ -5,6 +5,7 @@
 ##このプログラムは、アノテーションデータに含まれる名詞とその300次元の分散表現を辞書として作り、保存するプログラム.
 ##形態素解析はJanome
 ##stopwords.txtに含まれる単語は除く.
+##コマンド入力 1. TV/VB 2. train/test
 
 import re
 import sys
@@ -33,14 +34,20 @@ def make_word_list(file_name):
 
 	return word_list
 
-def read_annotation_data(file_name):
+def read_annotation_data(file_name, target):
+
+	if target == 'VB':
+		end = 9000
+	else:
+		end = 7200
+
 	data = open(file_name)
 	data = data.read()
 
 	#文章からスペース削除
 	data = data.replace(' ', '')
 	line = data.split()
-	line = line[1:7201]
+	line = line[:end]
 
 	return line
 
@@ -64,17 +71,18 @@ def make_noun_list(sentence, word_list):
 
 def main():
 
-	# VB/TV
+	# コマンド引数
 	args = sys.argv
-	target = args[1]
+	target = args[1] # VB/TV
+	phase = args[2] #train/test
 
 	# 語彙ファイル読み込み
-	file_name = '../original_data/NishidaVimeo/jawiki160111S1000W10SG_vocab.txt'
+	file_name = '../original_data/TV/jawiki160111S1000W10SG_vocab.txt'
 	word_list = make_word_list(file_name)
 
 	# アノテーションデータ読み込み
-	file_name = '../data/annotation/annotation_' + target + '.txt'
-	annotation_data = read_annotation_data(file_name)
+	file_name = '../data/annotation/' + target + '/annotation_' + target + '_' + phase + '.txt'
+	annotation_data = read_annotation_data(file_name, target)
 
 
 	# ストップワードを読み込んでリストへ
@@ -106,7 +114,7 @@ def main():
 	print(target_noun_dict)
 
 	# 作成した辞書を保存
-	with open('../data/annotation/noun_in_annotation.pickle', mode = 'wb') as f:
+	with open('../data/annotation/' + target + '/noun_in_annotation_' + target + '_' + phase + '.pickle', mode = 'wb') as f:
 		pickle.dump(target_noun_dict, f)
 
 if __name__ == '__main__':
