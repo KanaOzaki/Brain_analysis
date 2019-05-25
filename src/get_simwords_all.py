@@ -3,9 +3,9 @@
 #get_simwords_all.py
 
 ##このプログラムは、推定意味表象行列の各サンプルごとの類似単語を出力する.
-##単語の探索範囲はword2vec空間全てである.
+##単語の探索範囲はword2vec空間全てである.(ストップワード設けず)
 ##コマンド入力
-##1.被験者名 2.予測精度の閾値 3.基底数 4.time lag 5.間引き数(何sampleに1枚抜くか)
+##1.VB/TV 2.被験者名 3.予測精度の閾値 4.基底数 5.time lag 6.間引き数(何sampleに1枚抜くか)
 
 import sys
 import gensim
@@ -17,18 +17,19 @@ def main():
     W2V_model = gensim.models.KeyedVectors.load_word2vec_format(w2v_filename)
 
     args = sys.argv
-    sub = args[1]
-    threshold = args[2]
-    dimention = int(args[3])
-    shift = int(args[4])
-    sample = int(args[5])
+    target = args[1]
+    sub = args[2]
+    threshold = args[3]
+    dimention = int(args[4])
+    shift = int(args[5])
+    sample = int(args[6])
 
     # 推定意味表象行列の読み込み
-    Estimate_SRM = np.load("../data/Test/VB/ESRM_pred" + threshold + "_basis" + str(dimention) + "_sec" + str(shift) + "_sample" + str(sample) + ".pickle")
+    Estimate_SRM = np.load("../data/Test/" + target + "/ESRM_" + sub + "_pred" + threshold + "_base" + str(dimention) + "_sec" + str(shift) + "_sample" + str(sample) + ".pickle")
     Estimate_SRM = Estimate_SRM.T
 
     # 語彙ファイルの読み込み
-    vocab_file=open('../original_data/NishidaVimeo/jawiki160111S1000W10SG_vocab.txt','r')
+    vocab_file=open('../original_data/TV/jawiki160111S1000W10SG_vocab.txt','r')
 
     # 語彙リストの作成
     vocab_list = {}

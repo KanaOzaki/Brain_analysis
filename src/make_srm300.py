@@ -64,16 +64,17 @@ def make_word2vec(sentence, word_list):
 
 def main():
 
-	# VB/TV
+	# コマンド引数
 	args = sys.argv
-	target = args[1]
+	target = args[1] # VB/TV
+	phase = args[2] # train/test
 
 	# 語彙ファイル読み込み
-	file_name = '../original_data/NishidaVimeo/jawiki160111S1000W10SG_vocab.txt'
+	file_name = '../original_data/TV/jawiki160111S1000W10SG_vocab.txt' #語彙ファイルはTVにあり
 	word_list = make_word_list(file_name)
 
 	# アノテーションデータ読み込み
-	file_name = '../data/annotation/annotation_' + target + '.txt'
+	file_name = '../data/annotation/'+ target + '/annotation_' + target + '_' + phase + '.txt'
 	annotation_data = read_annotation_data(file_name)
 
 
@@ -86,7 +87,7 @@ def main():
 
 
 	# 行列を保存
-	with open('../data/srm/' + target + '_srm300.pickle', 'wb') as f:
+	with open('../data/srm/' + target + '_srm300_' + phase + '.pickle', 'wb') as f:
 		pickle.dump(srm_all, f)
 
 
