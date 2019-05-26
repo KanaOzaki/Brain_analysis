@@ -18,18 +18,19 @@ def main():
     W2V_model = gensim.models.KeyedVectors.load_word2vec_format(w2v_filename)
 
     args = sys.argv
-    sub = args[1]
-    threshold = args[2]
-    dimention = int(args[3])
-    shift = int(args[4])
-    sample = int(args[5])
+    target = args[1]
+    sub = args[2]
+    threshold = args[3]
+    dimention = int(args[4])
+    shift = int(args[5])
+    sample = int(args[6])
 
     # 対象基底番号の辞書を読み込み、基底番号だけのリストにする
-    sample_base_dict = np.load("../data/base/base_" + sub + "_sec" + str(shift) + "_sample" + str(sample) + ".pickle")
+    sample_base_dict = np.load("../data/base/" + target + "/base_" + sub + "_sec" + str(shift) + "_sample" + str(sample) + ".pickle")
     base_nums = [a for (a,b) in sample_base_dict.values()]
 
     # 訓練で作った係数の読み込み
-    Coef_train = np.load("../data/Dict/VB/Coef_pred" + threshold + "_basis" + str(dimention) + "_sec" + str(shift) + "_sample" + str(sample) + ".pickle")
+    Coef_train = np.load("../data/Dict/" + target + "/Coef_" + sub + "_pred" + threshold + "_base" + str(dimention) + "_sec" + str(shift) + "_sample" + str(sample) + ".pickle")
     print(Coef_train.shape)
 
     # 指定された基底について係数の大きい順に5つを見ていく
