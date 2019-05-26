@@ -26,18 +26,19 @@ def main():
     W2V_model = gensim.models.KeyedVectors.load_word2vec_format(w2v_filename)
 
     args = sys.argv
-    sub = args[1]
-    threshold = args[2]
-    dimention = int(args[3])
-    shift = int(args[4])
-    sample = int(args[5])
+    target = args[1]
+    sub = args[2]
+    threshold = args[3]
+    dimention = int(args[4])
+    shift = int(args[5])
+    sample = int(args[6])
 
     # 対象基底番号の辞書を読み込み、基底番号だけのリストにする
-    sample_base_dict = np.load("../data/base/base_" + sub + "_sec" + str(shift) + "_sample" + str(sample) + ".pickle")
+    sample_base_dict = np.load("../data/base/" + target + "/base_" + sub + "_sec" + str(shift) + "_sample" + str(sample) + ".pickle")
     base_nums = [a for (a,b) in sample_base_dict.values()]
 
     # 訓練で作った辞書の読み込み
-    Dict_train = np.load("../data/Dict/VB/Dict_pred" + threshold + "_basis" + str(dimention) + "_sec" + str(shift) + "_sample" + str(sample) + ".pickle")
+    Dict_train = np.load("../data/Dict/" + target + "/Dict_" + sub + "_pred" + threshold + "_base" + str(dimention) + "_sec" + str(shift) + "_sample" + str(sample) + ".pickle")
     # 意味表象辞書の部分だけ取り出す
     SRM_dict = Dict_train.T[-300:]
     SRM_dict = SRM_dict.T
@@ -45,7 +46,7 @@ def main():
     print(SRM_dict.shape)
 
     # アノテーション内の名詞のみを取り出したデータ(key:単語, value:ベクトル の辞書)
-    with open('../data/annotation/noun_in_annotation.pickle', mode = 'rb') as f:
+    with open('../data/annotation/' + target + '/noun_in_annotation_' + target + '_train.pickle', mode = 'rb') as f:
             noun_in_annotation = pickle.load(f)
 
     for num in base_nums:
