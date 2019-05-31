@@ -36,12 +36,14 @@ def main():
 	answer_list = []
 
 	# テストのサンプル数とサンプルを何個ずらすかをtime lagを何秒考慮したかで決める
+	# 1秒に1脳活動
 	if (target == 'TV') or (sub == 'DK'): #TVまたはVBのDKだったら600サンプル
 		test_sample_num = int(600 - shift)
 		shift_num = int(shift)
-	else:
+	else: # 2秒に1脳活動
 		test_sample_num = int(300 - shift/2) #VBのSTとSNは2秒に1サンプルなので300
 		shift_num = int(shift/2)
+		Correct_SRM = Correct_SRM[::2] #2秒に1回
 
 	# time lagを考慮して正解とのcos類似度をサンプルごとに求めてリストに
 	for i in range(0,test_sample_num):
@@ -51,6 +53,7 @@ def main():
 		answer_list.append(answer)
 
 	# マクロ平均を出す
+	print(len(Correct_SRM))
 	average = sum(answer_list)/len(answer_list)
 	print ("マクロ平均")
 	print (average)
