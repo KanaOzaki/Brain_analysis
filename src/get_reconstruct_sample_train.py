@@ -37,13 +37,14 @@ def main():
     for num in base_nums:
         print("基底 " + str(num) + "-------")
         # 基底番号numの係数を見る
-        coef_per_base = Coef_train[num,:]
+        coef_per_base = Coef_train[:,num]
+        print(len(coef_per_base))
         # ソート
         coef_sorted_index = np.argsort(coef_per_base)[::-1]
         coef_sorted = np.sort(coef_per_base)[::-1]
         # 上位5つを見る
         for i in range(5):
-            print("サンプル : {0},  係数 : {1}".format(coef_sorted_index[i], coef_sorted[i]))
+            print("サンプル : {0},  係数 : {1}".format(coef_sorted_index[i] * sample, coef_sorted[i]))
         print("-------------------------------")
 
 if __name__ == '__main__':
