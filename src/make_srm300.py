@@ -77,7 +77,6 @@ def main():
 	file_name = '../data/annotation/'+ target + '/annotation_' + target + '_' + phase + '.txt'
 	annotation_data = read_annotation_data(file_name)
 
-
 	# アノテーションデータの各サンプルについて単語の意味表象の和を求める.
 	srm_all = []
 	for sentence in annotation_data:
@@ -89,7 +88,6 @@ def main():
 	# 行列を保存
 	with open('../data/srm/' + target + '_srm300_' + phase + '.pickle', 'wb') as f:
 		pickle.dump(srm_all, f)
-
 
 if __name__ == '__main__':
 	main()
