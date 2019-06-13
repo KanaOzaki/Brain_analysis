@@ -61,7 +61,7 @@ def main():
 		brain_data = pickle.load(f)
 
 	#意味表象データ読み込み
-	with open('../data/srm/' + target + '_srm300.pickle', 'rb') as f:
+	with open('../data/srm/' + target + '_srm300_train.pickle', 'rb') as f:
 		semantic_data = pickle.load(f)
 
 	#時間差を考慮した意味表象行列取得
@@ -95,12 +95,12 @@ def main():
 	print(coef.shape)
 
 	#辞書保存
-	f = open("../data/Dict/VB/Dict_pred" + threshold + "_basis" + str(dimention) + "_sec" + str(shift) + "_sample" + str(sample) + ".pickle", "wb")
+	f = open("../data/Dict/" + target + "/Dict_" + sub + "_pred" + threshold + "_base" + str(dimention) + "_sec" + str(shift) + "_sample" + str(sample) + ".pickle", "wb")
 	pickle.dump(Dict, f)
 	f.close()
 
 	#係数保存
-	f = open("../data/Dict/VB/Coef_pred" + threshold + "_basis" + str(dimention) + "_sec" + str(shift) + "_sample" + str(sample) + ".pickle", "wb")
+	f = open("../data/Dict/" + target + "/Coef_" + sub + "_pred" + threshold + "_base" + str(dimention) + "_sec" + str(shift) + "_sample" + str(sample) + ".pickle", "wb")
 	pickle.dump(coef, f)
 	f.close()
 
